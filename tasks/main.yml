@@ -1,0 +1,22 @@
+---
+- name: Install Apache and PHP
+  ansible.builtin.yum:
+    name:
+      - httpd
+      - php
+    state: present
+
+- name: Copy phpinfo file
+  ansible.builtin.copy:
+    src: phpinfo.php
+    dest: /var/www/html/phpinfo.php
+    owner: apache
+    group: apache
+    mode: '0644'
+
+- name: Start and enable Apache
+  ansible.builtin.systemd:
+    name: httpd
+    state: started
+    enabled: true
+
